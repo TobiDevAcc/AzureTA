@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "az_blob_demo_faresdata",
+						"referenceName": "FaresDataSink",
 						"type": "DatasetReference"
 					},
 					"name": "source1"

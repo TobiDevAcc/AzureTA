@@ -1,21 +1,28 @@
 {
-	"name": "Dataflow1",
+	"name": "Dataflow3",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
 				{
 					"dataset": {
+						"referenceName": "TripDataSink",
+						"type": "DatasetReference"
+					},
+					"name": "TripData"
+				},
+				{
+					"dataset": {
 						"referenceName": "FaresDataSink",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "FaresData"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AggPayMetTip",
+						"referenceName": "FullTaxiData",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -23,7 +30,7 @@
 			],
 			"transformations": [
 				{
-					"name": "aggregate1"
+					"name": "join1"
 				}
 			],
 			"scriptLines": [
@@ -42,12 +49,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
-				"source1 aggregate(groupBy(payment_type),",
-				"     {Total Tip} = sum(toInteger(tip_amount))) ~> aggregate1",
-				"aggregate1 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     input(",
+				"     ignoreNoFilesFound: false) ~> TripData",
+				"source(output(",
 				"          medallion as string,",
 				"          hack_license as string,",
 				"          vendor_id as string,",
@@ -59,6 +62,32 @@
 				"          tip_amount as string,",
 				"          tolls_amount as string,",
 				"          total_amount as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> FaresData",
+				"TripData, FaresData join(TripData@medallion == FaresData@medallion",
+				"     && TripData@hack_license == FaresData@hack_license",
+				"     && TripData@vendor_id == FaresData@vendor_id",
+				"     && TripData@pickup_datetime == FaresData@pickup_datetime,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Column_1 as string,",
+				"          Column_2 as string,",
+				"          Column_3 as string,",
+				"          Column_4 as string,",
+				"          Column_5 as string,",
+				"          Column_6 as string,",
+				"          Column_7 as string,",
+				"          Column_8 as string,",
+				"          Column_9 as string,",
+				"          Column_10 as string,",
+				"          Column_11 as string",
 				"     ),",
 				"     umask: 0022,",
 				"     preCommands: [],",

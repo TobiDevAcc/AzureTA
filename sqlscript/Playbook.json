@@ -1,0 +1,17 @@
+{
+	"name": "Playbook",
+	"properties": {
+		"content": {
+			"query": "-- This is auto-generated code\nSELECT DISTINCT tolls_amount\nFROM\n    OPENROWSET(\n        BULK 'https://tademosynapse.dfs.core.windows.net/tademosynapse/data/demo_fares-data.csv',\n        FORMAT = 'CSV',\n        PARSER_VERSION = '2.0',\n        HEADER_ROW = TRUE\n    ) AS [result]\n\n\n\n-- medallion\n-- hack_license\n-- vendor_id\n-- pickup_datetime\n-- payment_type\n-- fare_amount\n-- surcharge\n-- mta_tax\n-- tip_amount\n-- tolls_amount\n-- total_amount\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,5 +1,5 @@
 {
-	"name": "LoadFaresDataError",
+	"name": "Load_FaresData_SQLPool_Error",
 	"properties": {
 		"activities": [
 			{
@@ -156,7 +156,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "az_blob_demo_faresdata",
+						"referenceName": "FaresDataSink",
 						"type": "DatasetReference"
 					}
 				],
