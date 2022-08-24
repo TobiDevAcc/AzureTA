@@ -1,0 +1,19 @@
+{
+	"name": "az_sqlpool_DedicatedPool1_faresdata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "tademosynapse-WorkspaceDefaultSqlServer",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"DBName": "DedicatedPool1"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "faresdata"
+		}
+	}
+}
