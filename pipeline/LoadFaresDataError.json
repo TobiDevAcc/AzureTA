@@ -1,5 +1,5 @@
 {
-	"name": "LoadFaresData",
+	"name": "LoadFaresDataError",
 	"properties": {
 		"activities": [
 			{
