@@ -1,0 +1,62 @@
+{
+	"name": "Dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "az_blob_demo_faresdata",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "flatten1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          medallion as string,",
+				"          hack_license as string,",
+				"          vendor_id as string,",
+				"          pickup_datetime as string,",
+				"          payment_type as string,",
+				"          fare_amount as string,",
+				"          surcharge as string,",
+				"          mta_tax as string,",
+				"          tip_amount as string,",
+				"          tolls_amount as string,",
+				"          total_amount as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(column1 = split(pickup_datetime,' ')) ~> derivedColumn1",
+				"derivedColumn1 foldDown(unroll(column1),",
+				"     mapColumn(",
+				"          medallion,",
+				"          hack_license,",
+				"          vendor_id,",
+				"          pickup_datetime,",
+				"          payment_type,",
+				"          fare_amount,",
+				"          surcharge,",
+				"          mta_tax,",
+				"          tip_amount,",
+				"          tolls_amount,",
+				"          total_amount,",
+				"          column1",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1"
+			]
+		}
+	}
+}
