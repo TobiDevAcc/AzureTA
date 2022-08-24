@@ -15,6 +15,17 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
 					"sink": {
 						"type": "SqlDWSink",
 						"allowPolyBase": true,
@@ -143,6 +154,12 @@
 						]
 					}
 				},
+				"inputs": [
+					{
+						"referenceName": "az_blob_demo_faresdata",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "az_sqlpool_DedicatedPool1_faresdata",
